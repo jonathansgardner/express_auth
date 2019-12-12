@@ -1,0 +1,216 @@
+body {
+  margin: 0;
+}
+.app {
+  min-width: 320px;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+strong {
+  font-weight: 500;
+}
+
+.login,
+.signup,
+.forgotPassword,
+.resetPassword {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 90%;
+  max-width: 450px;
+  margin: 5vh auto;
+}
+.loggedIn {
+  padding: 0 1rem;
+  margin: 5vh auto;
+  text-align: center;
+}
+
+.authForm {
+  align-self: stretch;
+}
+.authForm h2 {
+  margin: 0.5rem 0 0;
+  font-weight: normal;
+}
+.authForm form {
+  display: flex;
+  flex-Direction: column;
+}
+.authForm form button {
+  -webkit-appearance: none;
+  padding: 0.75rem 0;
+  border: 1px solid #333;
+  margin-top: 1rem;
+  background-color: #333;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.authForm form button:hover {
+  position: relative;
+  top: -1px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+}
+.authForm form button:disabled {
+  opacity: 0.3;
+  background-color: #fff;
+  border: 1px solid #fff;
+  color: #000;
+  cursor: not-allowed;
+}
+.authForm form button:focus {
+  outline: none;
+}
+.authForm .authError {
+  margin-bottom: 0;
+  color: #b22222;
+  font-size: 0.9rem;
+}
+
+.input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.input label {
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
+  color: #000;
+  font-size: 0.9rem;
+}
+.input label span.required {
+  color: red;
+}
+.input input {
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: none;
+  border-radius: 0;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1;
+}
+.input input:focus {
+  outline: none;
+}
+.input input::placeholder {
+  color: #aaa;
+}
+.input.readOnly input {
+  border-bottom: none;
+}
+.input.invalid label {
+  color: #b22222;
+}
+.input.invalid input {
+  border-bottom: 1px solid #b22222;
+  color: #b22222;
+}
+.input span.validationMessage {
+  height: 0;
+  color: #b22222;
+  font-size: 0.7rem;
+  line-height: 2;
+  text-align: right;
+  pointer-events: none;
+}
+.input:last-of-type span.validationMessage {
+  height: auto;
+}
+.input img.passwordToggle {
+  position: absolute;
+  right: 0.25rem;
+  top: 3.8rem;
+  opacity: 0.5;
+  height: 1rem;
+  width: 1rem;
+  color: #333;
+  cursor: pointer;
+}
+.input img.passwordToggle:hover {
+  opacity: 1;
+}
+
+.authLink {
+  display: inline-block;
+  margin-top: 1rem;
+  color: rgba(0,0,0,0.5);
+  font-size: 0.8rem;
+  line-height: 2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.authLink:hover {
+  color: #1e90ff;
+  text-decoration: underline;
+}
+
+.fourOFour {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 450px;
+  margin: 5vh auto;
+}
+.fourOFour h1 {
+  font-size: 35px;
+  display: inline-block;
+  padding-right: 12px;
+  animation: type .5s alternate infinite;
+}
+@keyframes type{
+  from { box-shadow: inset -3px 0px 0px #888; }
+  to { box-shadow: inset -3px 0px 0px transparent; }
+}
+
+@media screen and (min-width: 500px) {
+  body {
+    background-color: #fafafa;
+  }
+  .login,
+  .signup,
+  .forgotPassword,
+  .resetPassword,
+  .fourOFour,
+  .loggedIn {
+    margin: 10vh auto;
+  }
+  .authForm {
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+  }
+  div.authLinks {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .fourOFour h1 {
+    font-size: 50px;
+  }
+}
+
+/* @media screen and (min-height: 800px) {
+  .login,
+  .signup,
+  .forgotPassword,
+  .resetPassword,
+  .fourOFour {
+    margin: 10vh auto;
+  }
+} */
