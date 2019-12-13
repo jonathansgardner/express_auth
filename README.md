@@ -85,7 +85,7 @@ The JWT_SECRET is used during the token encryption process and therefore needs t
 
 When the [docker-compose.yml](./docker-compose.yml) file is executed, a container that hosts an instance of MongoDB is created. By default, the MONGO_USER, MONGO_PASS MONGO_HOST, MONGO_PORT environment variables are set up to point to and connect with this instance.
 
-see [Changing MongoDB configuration in Docker]()
+see [Changing MongoDB configuration in Docker](https://github.com/jonathansgardner/express_auth#changing-mongodb-configuration-in-docker)
 
 Once you have provided the necessary environment variables, navigate to the project’s root directory in your console and run the command
 ```
