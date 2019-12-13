@@ -79,7 +79,7 @@ MONGO_PORT: 27017
 ```
 By default the API_PORT is set to 5000.
 
-see [Setting the API port](https://github.com/jonathansgardner/express_auth/new/master?readme=1#setting-the-api-port)
+see [Setting the API port](https://github.com/jonathansgardner/express_auth#setting-the-api-port)
 
 The JWT_SECRET is used during the token encryption process and therefore needs to be unique and secure. A default is provided. This can and should be changed to anything you’d like.
 
@@ -125,8 +125,8 @@ body: firstName, lastName, email, password
 
 Creates a new user and stores it in the database. a token is created and sent to the client in the response. This token can then be stored and sent in the authorization header (prefixed with the string “Bearer“ followed by a single space) allowing the logged in user to access routes protected by the authRequired middleware.
 
-see [Customizing the User model](https://github.com/jonathansgardner/express_auth/new/master?readme=1#customizing-the-user-model)
-see [Including the token in the Authorization header](https://github.com/jonathansgardner/express_auth/new/master?readme=1#including-the-token-in-the-authorization-header)
+see [Customizing the User model](https://github.com/jonathansgardner/express_auth#customizing-the-user-model)
+see [Including the token in the Authorization header](https://github.com/jonathansgardner/express_auth#including-the-token-in-the-authorization-header)
 
 ```
 POST /auth/login
@@ -135,7 +135,7 @@ body: email, password
 
 Searches the database for a user using the provided email and confirms that the provided password matches the password for that user. If found, and the provided password is valid, a token is created and sent to the client in the response. This token can then be stored and sent in the authorization header (prefixed with the string “Bearer“ followed by a single space) allowing the logged in user to access routes protected by the authRequired middleware.
 
-see [Including the token in the Authorization header](https://github.com/jonathansgardner/express_auth/new/master?readme=1#including-the-token-in-the-authorization-header)
+see [Including the token in the Authorization header](https://github.com/jonathansgardner/express_auth#including-the-token-in-the-authorization-header)
 
 ```
 POST /auth/sendResetLink
@@ -144,7 +144,7 @@ body: email
 
 Searches the database for a user using the provided email. If found, a password reset code is created for the user and stored in the database. An email with a url containing the newly created reset code is sent to the user. This url should be set up to direct the user to a page allowing them to create a new password for their account. If no user is found, an email explaining that a request for a reset link was made but that no account associated with the provided email address was found is sent.
 
-see [Customizing the password reset emails](https://github.com/jonathansgardner/express_auth/new/master?readme=1#customizing-the-password-reset-emails)
+see [Customizing the password reset emails](https://github.com/jonathansgardner/express_auth#customizing-the-password-reset-emails)
 
 ```
 POST /auth/resetPassword
@@ -167,7 +167,7 @@ Requires Authorization header containing token (prefixed with the string “Bear
 
 Validates the token included in the Authorization header. Can be used to assess whether or not a token is valid.
 
-see [Including the token in the Authorization header](https://github.com/jonathansgardner/express_auth/new/master?readme=1#including-the-token-in-the-authorization-header)
+see [Including the token in the Authorization header](https://github.com/jonathansgardner/express_auth#including-the-token-in-the-authorization-header)
 
 ## Customization
 
@@ -204,7 +204,8 @@ Finally, replace the current transporter definition with the following
 let transporter = nodemailer.createTransport({
     host: keys.TRANSPORT_HOST,
     port: keys.TRANSPORT_PORT,
-    secure: keys.TRANSPORT_PORT === 465 ? true : false, // true for 465, false for other ports
+    // true for 465, false for other ports
+    secure: keys.TRANSPORT_PORT === 465 ? true : false,
      auth: {
        user: keys.TRANSPORT_USER,
        pass: keys.TRANSPORT_PASS
