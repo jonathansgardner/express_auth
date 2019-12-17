@@ -263,4 +263,4 @@ docker-compose -f test/docker-compose.yml up —build
 ```
 It may take a few minutes to build the first time. Once it finishes building, the app should run on port 3333 on your local machine, with the api running on port 5000.
 
-The test app uses Mailslurper for email testing. When the app is running you can navigate to http\://localhost:8080 to see the inbox. Any emails that are sent from the app, regardless of the email supplied in the “to” field, will end up here, allowing you to test the password reset flow. Mailslurper is a really cool open source SMTP mail server for development. If you aren’t familiar with it already, you can find out more at the Mailslurper website.
+The test app uses Mailslurper for email testing. When the app is running you can navigate to http\://localhost:8080 to see the inbox. Any emails that are sent from the app, regardless of the email supplied in the “to” field, will end up here, allowing you to test the password reset flow. Mailslurper is a really cool open source SMTP mail server for development. If you aren’t familiar with it already, you can find out more at the [Mailslurper website](https://mailslurper.com).
