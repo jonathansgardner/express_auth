@@ -100,7 +100,7 @@ It may take a minute or two the first time you run it. You will now have a Mongo
 
 If you’d prefer not to use Docker for development that’s fine also though it requires a good bit more setup.
 
-You’ll need to have access to a MongoDB instance running on your local machine or on an external host such as mLab.
+You’ll need to have access to a MongoDB instance running on your local machine or on an external host such as [mLab](https://mlab.com).
 
 You’ll also need to make sure all of the environment variables are defined. You can either set up all of these variables on your local machine via the console or you can define them directly in the [src/config/keys.js](src/config/keys.js). If you choose this route, I suggest creating two new files in this directory, one for development keys and the other for production keys and then editing the keys.js file to export the correct file based on the value of process.env.NODE_ENV which will defaults to “development” if not defined elsewhere. This way, you can use a separate database, SMTP server, API port, and JWT secret for development and production. The new setup might look something like this:
 
@@ -175,7 +175,7 @@ see [Including the token in the Authorization header](https://github.com/jonatha
 
 By default, when I new user is created, There are four required fields: firstName, lastName, email, and password. The email must be unique across all users. Additionally a unique id is automatically generated and stored for the user by the database.
 
-If you would like to add new properties, or remove any existing ones, you can simply edit the userSchema, defined in [src/models/User.js](src/models/User.js). The email, password, or passwordResetCode are necessary for the authentication process to work correctly and any alterations made to these properties should be done with caution. Please consult the Mongoose documentation to learn more about about defining a Mongoose schema.
+If you would like to add new properties, or remove any existing ones, you can simply edit the userSchema, defined in [src/models/User.js](src/models/User.js). The email, password, or passwordResetCode are necessary for the authentication process to work correctly and any alterations made to these properties should be done with caution. Please consult the [Mongoose documentation](https://mongoosejs.com/docs/guide.html) to learn more about about defining a Mongoose schema.
 
 ### Setting the API port
 
@@ -216,7 +216,7 @@ You can also remove the console.logs found at the bottom of the sendEmail functi
 
 Alternatively, you can define and export the necessary values as variables directly in [src/config/keys.js]*(src/config/keys.js) or more directly still in [src/services/nodemailer.js](src/services/nodemailer.js).
 
-For more detailed information about how to configure the package to work with your email server please consult the Nodemailer website.
+For more detailed information about how to configure the package to work with your email server please consult the [Nodemailer website](https://nodemailer.com/about).
 
 ### Customizing the password reset emails
 
@@ -243,7 +243,7 @@ You can customize these emails in the [src/services/nodemailer.js](src/services/
 
 *** Make sure to update the url being sent in the user email to match the url on the frontend that will allow the user to reset their password. By default the url is set to http\://localhost:3000/resetPassword/${ passwordResetCode }. You can update this in [src/routes/authRoutes.js](src/routes/authRoutes.js) under the /sendResetLink endpoint where const url is declared.
 
-For more detailed information on customizing emails with Nodemailer, please refer to the Nodemailer documentation.
+For more detailed information on customizing emails with Nodemailer, please refer to the [Nodemailer documentation](https://nodemailer.com/about).
 
 ### Changing MongoDB configuration in Docker
 
