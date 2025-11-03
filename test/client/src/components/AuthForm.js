@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { Context as AuthContext } from '../contexts/AuthContext';
+import React, { useCallback, useState } from 'react';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const AuthForm = ({ formTitle, onSubmit, buttonText }) => {
-  const { errorMessage, clearErrorMessage } = useContext( AuthContext );
+  const { errorMessage, clearErrorMessage } = useAuthContext();
 
   const [ email, setEmail ] = useState( '' );
   const [ password, setPassword ] = useState( '' );
 
-  const handleSubmit = e => {
+  const handleSubmit = useCallback(e => {
     e.preventDefault()
     onSubmit({ email, password });
-  };
+  }, [ onSubmit ]);
 
   return (
     <div className="authForm">

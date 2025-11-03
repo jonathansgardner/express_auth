@@ -21,7 +21,12 @@ router.post( '/signup', async ( req, res ) => {
     // send the token back to the client in the response
     res.status( 201 ).send({ token });
   } catch ( err ) {
-    return res.status( 422 ).send({ error: err.userMessage });
+    if ( err.userMessage ) {
+      // handle validation errors thrown by Mongoose and errors thrown by MongoDB when a required field is missing
+      return res.status( 422 ).send({ error: err.userMessage });
+    }
+    // handle all other errors
+    return res.status( 500 ).send({ error: 'Sorry, something went wrong. We were unable to process your request. We apologize for the inconvenience. If the problem persists, please contact support.' });
   }
 });
 
@@ -37,7 +42,7 @@ router.post( '/login', async ( req, res ) => {
   if ( user === null ) {
     // return an error if no user is found with a matching email
     // *** return a more general error message and status when handling authentication errors ***
-    return res.status( 404 ).send({ error: 'Invalid email or password.' });
+    return res.status( 401 ).send({ error: 'Invalid email or password.' });
   }
   try {
     // call the comparePassword method set up for the userSchema in models/User.js
@@ -49,7 +54,7 @@ router.post( '/login', async ( req, res ) => {
   } catch ( err ) {
     // handle errors thrown by the comparePassword method if the passwords don't match
     // *** return a more general error message and status when handling authentication errors ***
-    return res.status( 404 ).send({ error: 'Invalid email or password.' });
+    return res.status( 401 ).send({ error: 'Invalid email or password.' });
   }
 });
 
@@ -82,9 +87,16 @@ router.post( '/sendResetLink', async ( req, res ) => {
     /*** make sure this url will direct the user to a route on the frontend that will allow them to reset their password ***/
     const url = `http://localhost:3333/resetPassword/${ passwordResetCode }`;
     /* message sent to user containing password reset link */
-    const message = `Click on the link below to reset your password.\n${ url }`;
+    const message = `You are receiving this email because a request was made to reset the password associated with your account. If you did not initiate the password reset request, someone may be trying to gain access to your account. Please contact support immediately.\nClick on the link below to reset your password.\n${ url }`;
+    const html = `<html>
+  <body>
+      <p>You are receiving this email because a request was made to reset the password associated with your account. If you did not initiate the password reset request, someone may be trying to gain access to your account. Please contact support immediately.</p>
+      <p>Click on the link below to reset your password.</p>
+      <a href="${url}">${url}</a>
+  </body>
+</html>`
     // send en email to the email address provided in the request
-    await sendEmail( email, message ).catch( console.error );
+    await sendEmail( email, message, html ).catch( console.error );
     return res.status( 200 ).send();
   } catch ( err ) {
     console.log( err );
@@ -126,7 +138,7 @@ router.post( '/resetPassword', async ( req, res ) => {
     return res.status( 401 ).send({ error: 'Invalid request.' });
   }
   // unset the passwordResetCode and update the user's password in the db
-  user.updateOne({ $unset: [ passwordResetCode ], $set: { password } });
+  await user.updateOne({ password, passwordResetCode: undefined });
   return res.status( 200 ).send();
 });
 

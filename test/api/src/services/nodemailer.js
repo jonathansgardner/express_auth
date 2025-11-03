@@ -1,7 +1,7 @@
 const nodemailer = require( 'nodemailer' );
 const keys = require( '../config/keys' );
 
-const sendEmail = async ( email, message ) => {
+const sendEmail = async ( email, message = '', html = '' ) => {
   let transporter = nodemailer.createTransport({
     host: keys.TRANSPORT_HOST,
     port: keys.TRANSPORT_PORT,
@@ -12,6 +12,7 @@ const sendEmail = async ( email, message ) => {
     to: email,
     subject: 'Reset Password',
     text: message,
+    html
   });
 
   console.log( 'Message sent: %s', info.messageId );

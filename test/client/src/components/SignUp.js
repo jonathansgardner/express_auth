@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
 import useValidation from '../hooks/useValidation';
-import { Context as AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 import Input from '../components/Input';
 
 const SignUp = () => {
-  const { errorMessage, signup, clearErrorMessage } = useContext( AuthContext );
+  const { errorMessage, signup, clearErrorMessage } = useAuthContext();
   const [ confirmPassword, setConfirmPassword ] = useState( true );
   const [ validate, setValidate ] = useState( false );
 
@@ -26,15 +26,17 @@ const SignUp = () => {
     confirm: true
   });
 
-  const handleSubmit = e => {
+  const handleButtonClick = useCallback(() => setValidate( true ), []);
+
+  const handleSubmit = useCallback(e => {
     e.preventDefault();
     const isValid = Object.values( validationData ).every( value => value );
     if ( isValid ) {
       signup( formData );
     }
-  };
+  }, [ formData, signup, validationData ]);
 
-  const checkConfirmPassword = () => {
+  const checkConfirmPassword = useCallback(() => {
     if ( formData.password.length && formData.confirm.length && formData.password !== formData.confirm ) {
       setConfirmPassword( false );
       return false;
@@ -42,7 +44,7 @@ const SignUp = () => {
       setConfirmPassword( true );
       return true;
     }
-  };
+  }, [ formData.confirm, formData.password ]);
 
   return (
     <div className="signup">
@@ -114,7 +116,7 @@ const SignUp = () => {
             focusHandler={ clearErrorMessage }
           />
           { errorMessage ? <p className="authError">{ errorMessage }</p> : null }
-          <button onClick={ () => setValidate( true ) }>Sign Up</button>
+          <button onClick={ handleButtonClick }>Sign Up</button>
         </form>
       </div>
       <Link

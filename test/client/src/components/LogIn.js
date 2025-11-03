@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
 import useValidation from '../hooks/useValidation';
-import { Context as AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 import Input from '../components/Input';
 
 const LogIn = () => {
-  const { errorMessage, login, clearErrorMessage } = useContext( AuthContext );
+  const { errorMessage, login, clearErrorMessage } = useAuthContext();
 
   const [ validate, setValidate ] = useState( false );
 
@@ -20,13 +20,13 @@ const LogIn = () => {
     password: true
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = useCallback(e => {
     e.preventDefault();
     const isValid = Object.values( validationData ).every( value => value );
     if ( isValid ) {
       login( formData );
     }
-  };
+  }, [ formData, login, validationData ]);
 
   return (
     <div className="login">
@@ -68,6 +68,7 @@ const LogIn = () => {
               }
             }}
             className="authLink"
+            onClick={ clearErrorMessage }
           >
             Forgot your password?
           </Link>

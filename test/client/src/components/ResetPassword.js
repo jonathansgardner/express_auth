@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import useForm from '../hooks/useForm';
-import { Context as AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 import Input from '../components/Input';
 
 const ResetPassword = props => {
-  const { errorMessage, resetPassword } = useContext( AuthContext );
+  const { errorMessage, resetPassword } = useAuthContext();
 
   const [ confirmPassword, setConfirmPassword ] = useState( true );
 
@@ -13,16 +13,15 @@ const ResetPassword = props => {
     confirm: ''
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = useCallback(e => {
     e.preventDefault()
     resetPassword({
-      passwordResetCode: props.match.params.passwordResetCode,
+      passwordResetCode: props.computedMatch.params.id,
       password: formData.password
     });
-  };
+  }, [ formData.password, props.computedMatch.params.id, resetPassword ]);
 
-  const checkConfirmPassword = () => {
-    console.log( `logic: ${ formData.password.length && formData.confirm.length && formData.password !== formData.confirm }`)
+  const checkConfirmPassword = useCallback(() => {
     if ( formData.password.length && formData.confirm.length && formData.password !== formData.confirm ) {
       setConfirmPassword( false );
       return false;
@@ -30,7 +29,7 @@ const ResetPassword = props => {
       setConfirmPassword( true );
       return true;
     }
-  };
+  }, [ formData.confirm, formData.password ]);
 
   return (
     <div className="resetPassword">

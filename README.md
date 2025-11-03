@@ -8,11 +8,11 @@ The token should be sent in an Authorization header and prefixed with the string
 ```
 // grab the token from localStorage
 // or wherever you are storing it on the client side
-const token = localStorage.getItem( ‘token’ );
+const token = localStorage.getItem( 'token' );
 
 // include the token in the Authorization header
 // prefix the token with "Bearer" (with an uppercase b and a single space)
-header : { Authorization: `Bearer ${ token }` };
+header: { Authorization: `Bearer ${ token }` };
 ```
 ### Creating protected routes
 
@@ -21,7 +21,7 @@ In the Express app, a middleware called requireAuth, which can be found in [src/
 As an example, if you wanted to create a route that let the user change their email, it might look something like this:
 ```
 // passing requireAuth as the second argument after the path
-app.patch( ‘/user/email’, requireAuth, ( req, res ) => {
+app.patch( '/user/email', requireAuth, ( req, res ) => {
   try {
     // get the id attached to the request by the requireAuth middleware
     const { id } = req.user
@@ -47,14 +47,14 @@ Const updateEmail = email => {
 
   // grab the token from localStorage
   // or wherever you are storing it on the client side
-  const token = localStorage.getItem( ‘token’ );
+  const token = localStorage.getItem( 'token' );
 
   axios({
-    method: ‘patch’,
-    url: ‘http://localhost:5000/user/email
+    method: 'patch',
+    url: '/user/email',
     headers: {
-      ‘Content-Type’: ‘application/json’,
-      ‘Authorization’: `Bearer ${ token }`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ token }`
     },
     data: { email }
   });
@@ -70,14 +70,14 @@ In order for the app to work correctly, you will first need to configure a few e
 
 Open the [docker-compose.yml](./docker-compose.yml) file found in the project’s root directory, look under services and where the api service is defined you will see the following listed under environment:
 ```
-API_PORT: 5000
+API_PORT: 8000
 JWT_SECRET:
 MONGO_USER: mongo
 MONGO_PASS: mongo_password
 MONGO_HOST: mongodb
 MONGO_PORT: 27017
 ```
-By default the API_PORT is set to 5000.
+By default the API_PORT is set to 8000.
 
 see [Setting the API port](https://github.com/jonathansgardner/express_auth#setting-the-api-port)
 
@@ -179,15 +179,18 @@ If you would like to add new properties, or remove any existing ones, you can si
 
 ### Setting the API port
 
-By default the API is configured to run on port 5000. If you would like to change this there are a number of ways to do so. If you are running the app in a development environment using Docker, you can simply update the port mapping in the [docker-compose.yml](./docker-compose.yml) file found in the project’s root directory. To do this, look under services, where the api service is being defined, here you will see the following entry in ports:
+By default the API is configured to run on port 8000. If you would like to change this there are a number of ways to do so. If you are running the app in a development environment using Docker, you can simply update the port mapping and API_PORT environment variable in the [docker-compose.yml](./docker-compose.yml) file found in the project’s root directory. To do this, look under services, where the api service is being defined, here you will see the following:
 ```
-- 5000:5000
+ports:
+  - 8000:8000
+environment:
+  API_PORT: 8000
 ```
-This line is mapping port 5000 for the Docker container the API is running in to port 5000 on your local machine. By changing the value to the right of the “:” you can change the port on which the API will be made available on your local machine.
+This line is mapping port 8000 for the Docker container the API is running in to port 8000 on your local machine. By changing the value to the right of the “:” you can change the port on which the API will be made available on your local machine.
 
-If you are not using Docker, or you are setting the API up to run in a production environment, you can define the API port in one of two ways. The first is by setting the API_PORT environment variable to the desired port number. Alternatively, you can simply set the value in [src/config/keys.js](src/config/keys.js). This can be done by removing “API_PORT” from the destructing statement found at the top of the file and defining it underneath. For example, if you’d like to setup the API to run on port 5001
+If you are not using Docker, or you are setting the API up to run in a production environment, you can define the API port in one of two ways. The first is by setting the API_PORT environment variable to the desired port number. Alternatively, you can simply set the value in [src/config/keys.js](src/config/keys.js). This can be done by removing “API_PORT” from the destructing statement found at the top of the file and defining it underneath. For example, if you’d like to setup the API to run on port 8001
 ```
-const API_PORT = 5001;
+const API_PORT = 8001;
 ```
 ### Configuring the mail server
 
@@ -255,12 +258,12 @@ I’ve included a test app that you can run to see the authentication flow as I 
 
 To run the test app locally with Docker, navigate to the [test directory](test) found in the project’s root directory in your console and run the command:
 ```
-docker-compose up —build
+docker-compose up —-build
 ```
 or, directly from the project’s root directory you can run:
 ```
-docker-compose -f test/docker-compose.yml up —build
+docker-compose -f test/docker-compose.yml up —-build
 ```
-It may take a few minutes to build the first time. Once it finishes building, the app should run on port 3333 on your local machine, with the api running on port 5000.
+It may take a few minutes to build the first time. Once it finishes building, the app should run on port 3333 on your local machine, with the api running on port 8000.
 
 The test app uses Mailslurper for email testing. When the app is running you can navigate to http\://localhost:8080 to see the inbox. Any emails that are sent from the app, regardless of the email supplied in the “to” field, will end up here, allowing you to test the password reset flow. Mailslurper is a really cool open source SMTP mail server for development. If you aren’t familiar with it already, you can find out more at the [Mailslurper website](https://mailslurper.com).

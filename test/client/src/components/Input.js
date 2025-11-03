@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ShowPassword from './eye-solid.svg';
 import HidePassword from './eye-slash-solid.svg';
 
@@ -29,10 +29,6 @@ const Input = React.forwardRef(( props, ref ) => {
   const [ showPassword, setShowPassword ] = useState( false );
 
   useEffect(() => {
-    handleBlur();
-  }, [ validate ]);
-
-  useEffect(() => {
     if ( validationCallback ) {
       if ( !isValid ) {
         validationCallback({ name, value: false });
@@ -40,7 +36,7 @@ const Input = React.forwardRef(( props, ref ) => {
         validationCallback({ name, value: true });
       }
     }
-  }, [ isValid ]);
+  }, [ isValid, name, validationCallback ]);
 
   useEffect(() => {
     if ( condition === false ) {
@@ -52,7 +48,7 @@ const Input = React.forwardRef(( props, ref ) => {
     }
   }, [ condition, conditionMessage ]);
 
-  const handleFocus = () => {
+  const handleFocus = useCallback(() => {
     if ( focusHandler ) {
       focusHandler();
     }
@@ -62,9 +58,9 @@ const Input = React.forwardRef(( props, ref ) => {
     if ( errorMessage ) {
       setErrorMessage( '' );
     }
-  };
+  }, [ errorMessage, focusHandler, isValid ]);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     if ( conditionCheck ) {
       conditionCheck();
     }
@@ -85,11 +81,24 @@ const Input = React.forwardRef(( props, ref ) => {
       setIsValid( false );
       setErrorMessage( conditionMessage );
     }
-  };
+  }, [
+    condition,
+    conditionCheck,
+    conditionMessage,
+    label,
+    required,
+    validation,
+    validationMessage,
+    value
+  ]);
 
-  const togglePassword = () => {
+  // useEffect(() => {
+  //   handleBlur();
+  // }, [ handleBlur, validate ]);
+
+  const togglePassword = useCallback(() => {
     setShowPassword( prevState => !prevState );
-  };
+  }, []);
 
   return (
     <div className={ `input ${ !isValid ? 'invalid' : null } ${ readOnly ? 'readOnly' : null }` }>

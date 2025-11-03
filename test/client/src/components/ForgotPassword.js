@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
-import { Context as AuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthContext';
 import Input from '../components/Input';
 
 const ForgotPassword = props => {
 
   const { initialEmail } = props.location.state;
 
-  const { errorMessage, forgotPassword, clearErrorMessage } = useContext( AuthContext );
+  const { errorMessage, forgotPassword, clearErrorMessage } = useAuthContext();
 
   const [ emailSent, setEmailSent ] = useState( '' );
 
@@ -16,13 +16,13 @@ const ForgotPassword = props => {
     email: initialEmail
   });
 
-  const handleSubmit = async e => {
+  const handleSubmit = useCallback( async e => {
     e.preventDefault()
     const response = await forgotPassword( formData );
     if ( response === true ) {
       setEmailSent( true );
     }
-  };
+  }, [ forgotPassword, formData ]);
 
   return (
     <div className="forgotPassword">

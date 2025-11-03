@@ -1,10 +1,10 @@
-import { useMemo, useReducer } from 'react';
+import { useCallback, useMemo, useReducer } from 'react';
 import formReducer, { SET, UPDATE } from '../reducers/formReducer';
 
 const useForm = ( initialState = {} ) => {
   const [ state, dispatch ] = useReducer( formReducer, initialState );
 
-  const updateField = ({ target }) => UPDATE( dispatch )( target )
+  const updateField = useCallback(({ target }) => UPDATE( dispatch )( target ), []);
 
   const setFormData = useMemo( data => data => {
     if ( data ) {

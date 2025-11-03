@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import history from './history';
-import { Context as AuthContext } from './contexts/AuthContext';
+import { useAuthContext } from './contexts/AuthContext';
 import SignUp from './components/SignUp';
 import LogIn from './components/LogIn';
 import ForgotPassword from './components/ForgotPassword';
@@ -12,11 +12,11 @@ import LoggedIn from './components/LoggedIn';
 import './App.css';
 
 const App = () => {
-  const { token, validateToken } = useContext( AuthContext );
+  const { token, validateToken } = useAuthContext();
 
   useEffect(() => {
     validateToken()
-  }, []);
+  }, [ validateToken ]);
 
   return (
     <div className="app">

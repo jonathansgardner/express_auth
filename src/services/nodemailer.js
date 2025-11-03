@@ -23,6 +23,7 @@ const sendEmail = async ( email, message ) => {
     to: email,
     subject: 'Reset Password',
     text: message,
+    html
   });
 
   console.log( 'Message sent: %s', info.messageId );

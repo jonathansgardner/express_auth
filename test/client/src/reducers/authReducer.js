@@ -8,7 +8,7 @@ export const authReducer = ( state, action ) => {
     case LOG_IN:
       return { token: action.payload, errorMessage: ''  };
     case SIGN_OUT:
-      return { token: null, errorMessage: '' }
+      return { token: null, errorMessage: '' };
     case ERROR:
       return { ...state, errorMessage: action.payload };
     case CLEAR_ERROR:
